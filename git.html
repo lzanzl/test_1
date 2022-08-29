@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+git，svn---版本控制器
+作用：用于多人团队协作
+
+》SVN
+    集中式版本控制器，版本库集中放在中央服务器，操作非常简单，鼠标右键提交、新增、下载
+》Git
+    分布式版本控制器，并非将所有版本放在中央服务器，它将每一个人的电脑都看做是一个服务器，不需要联网也可以提交
+    目前最先进主流的版本控制器
+    git相对svn会复杂一些，因为它有很多命令
+
+git基本概念：
+    工作流程：
+        》工作区: 自己电脑上项目所在目录
+        》暂存区：通常放在当前项目 .git目录下
+        》本地仓库（本地版本库）.git 目录下
+        》远程仓库（远程端版本库）:将代码放在服务器上
+            见：git流程图.jpg
+
+git安装：
+    1）下载 ：https://git-scm.com/
+            ==》选downloads
+            ==》选择window系统的下载
+            ==》选择64-bit for Windows Setup
+
+    2) 双击下载好的.exe的文件
+        =》默认选项不改，直接NEXT直到 Install ,整个过程都不需要手段选择，直接采用默认选项
+
+
+配置：
+    安装好git之后，对着项目根目录点右键 会有 “Git Bash Here”的选项，选择之后可以直接进入项目命令行 | 终端
+
+    1. 配置命令
+        安装完git之后必须先设置全局的用户名与邮箱地址
+            ==》git config --global user.name '你的用户名' （必须英文，执行成功没有提示，错误会有提示）
+            ==》git config --global user.email '你的邮箱'
+
+        如果仅仅是为了当前项目单独设置用户名，那么需要去掉global 执行指令
+            git config user.name '你的用户名'
+
+        查看当前配置：
+            ==》git config --list
+
+    2.仓库初始化
+        1）新项目的仓库创建（首先进入到你准备创建项目的目录下）
+            =》 mkdir mygit (自定义文件夹的名字) //指定目录下就会多出文件夹mygit
+            =》cd mygit (进入创建的项目目录中)
+
+        2）仓库初始化：会在当前目录下创建一个.git的目录
+            =》git init   (！！！！会创建一个隐藏的目录，不要再电脑里面去显示隐藏文件，不许碰！！！！)
+
+    3. 查看当前项目状态 (可以看到有没有文件的变动，新的文件，文件的改变等等)
+        =》git status
+          提示信息：
+                On branch master
+
+                No commits yet
+
+                nothing to commit (create/copy files and use "git add" to track)
+
+        在项目中 mygit新建 Index.html
+        再次执行： =》git status
+            On branch master
+
+            No commits yet
+
+            Untracked files:
+            (use "git add <file>..." to include in what will be committed)
+                index.html
+
+                nothing added to commit but untracked files present (use "git add" to track)
+
+    4. 文件跟踪--将工作区的文件（index.html） 提交到暂存区
+            =》git add index.html
+
+    5. 文件跟踪--将暂存区的文件提交到本地仓库
+            =》git commit -m '本次提交说明'
+
+    6. 新增文件，修改文件之后重新更新 | 提交文件
+        操作：index.html 新增了内容，并且创建了css文件夹和index.css 文件
+
+        如果添加的文件和文件夹比较多的情况下，我们每次一次执行 git add 文件名（暂存区），git commit -m '本次提交说明' （本地仓）   可以这样操作，一个文件一个文件提交，但是会很麻烦，
+        可以通过一个指令将所有都包含进去
+        （根据情况选用以下两个指令中的一项执行）
+        1）git add .   --新增的，修改的都天剑到暂存区（不包含删除的文件）
+        2）git add -A  --添加所有变化（新增，修改，删除）
+
+        注意：并非只要执行了 git add 之后必须 git commit -m 'xxx' ，可以多次add之后再 git commit 到本地仓
+
+        执行顺序：当有文件发生变动 必须首先执行 git add .     不能直接执行 git commit
+
+        新增完毕之后再次提交到本地仓
+            =》 git commit -m '新增index.css文件'
+            Sourcetree: https://www.sourcetreeapp.com/   可视化工具
+
+    7. 通过代码编辑器完成之前的操作
+        webStorm" 左下角“  Git 点击打开 git工具
+        "绿色小勾" : 提交新增 | 改变的内容到本地仓
+            点击后弹出界面框，点击commit就可以了
+        “蓝色左右箭头”：显示提交前和未提交文件版本的区别
+
+        VsCode:代码编辑器左侧导航栏第三项 “分支图标”
+            修改文件之后 会出现  “更改”下拉  ，
+
+            “更改”下拉  的右侧 有“+” 号，点击表示提交到暂存区，点击“更改”下拉中展示的文件 也能够显示文件提交前和仓库中版本的区别
+            可以单个文件提交，也可以直接点击文件夹后面的 + 号全部提交
+            提交完毕后 出现“暂存的更改” 下拉（它后面没有+号）
+            在上方的输入框中输入本次提交的说明之后，点击commit 按钮 或者 整个项目文件右侧的 √ 图标 就可以提交到本地仓了
+
+
+    8. 历史记录
+        =》git log
+
+        最新提交的记录前会有  HEAD ->master 的标记
+
+        =》git relog (查看历史操作记录)
+
+    9. 文件删除
+        操作：将index.css 删除 ，
+        ==>git status  (提示有文件被删除了，这里的删除并没有在本地仓删除index.css)
+
+        怎样删除本地仓的文件？
+
+        =>git add .
+        =>git commit -m '删除css'
+
+        因为这个操作也算是在修改文件，同样提交暂存==》修改本地仓
+
+        或者也可以不用以上两步操作，直接使用指令
+            =》git rm 文件   // 删除工作区文件，并且也从暂存区删除对应的文件记录
+
+                =》git rm index.html
+
+                =>git status(可以不用做)
+
+                =>git commit -m '删除index.html'
+
+
+
+
+
+
+</body>
+</html>
