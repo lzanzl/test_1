@@ -141,6 +141,134 @@ git安装：
 
                 =>git commit -m '删除index.html'
 
+    10. 停止跟踪
+        指定某个文件不再跟踪范围
+            新建 mytest.html
+                =>git add .   (提交到暂存区)
+                =>git commit -m '新增mytest.html' （提交到本地仓）
+                以上两步操作完成之后，mytest.html 就会一直处于被跟踪状态，一旦文件发生变化就会被发现
+
+        停止跟踪：
+            =》git rm --cached mytest.html
+
+            如果停止跟踪之后，又希望再次跟踪=》git add.
+                                                                      =》git commit -m '提交mytest.html'
+
+    11. 版本回退
+            可以回退到指定版本，每次提交之后就会生成当前版本，如果出现错误，可以回退到指定版本
+
+            但是，回退到指定版本会导致在它之后提交的记录消失
+
+            语法：
+                =》git reset //不加hard回退的时候 仅回到 暂存区
+                      git reset --hard  // 加上 hard 回到工作区
+
+            操作：
+                1. 查看当前提交的记录  ： =》git log
+
+                2. =》git reset --hard 184c4b6  （需要回退到哪个版本）
+
+    12. 还可以仅仅撤销某一次版本的操作，最好是最近的一次
+
+        创建1.html=>git add -A ==>git commit -m '添加1.html'
+        创建2.html=>git add -A ==>git commit -m '添加2.html'
+        创建3.html=>git add -A ==>git commit -m '添加3.html'
+
+        执行 =》git log //查看操作记录  将3.html 的id号 前7位复制下来   01eaaab
+
+        撤销某次版本的操作
+        =》git revert 01eaaab （结果就是将第三步创建的3.html删除）
+
+
+    git revert 版本 //撤销指定版本
+    git revert HEAD //撤销上一次
+    git revert HEAD^ //撤销上上次
+    git revert HEAD~3 //撤销上上上次
+
+    ========================远程仓库搭建======================
+
+    它主要用于代码的共享
+
+    ==》仓库类型
+        1. github(国外)
+        2. gitee(码云-国内-与github类似)
+        3. 自建服务器（保密，可以上传机密文件）
+
+
+        仓库创建：
+            点击界面右上角 + 号
+                    1）填入仓库名称（英文）
+                    2）路径会根据第一项仓库名称自动生成，也可以自己填写
+                    3）仓库介绍
+                    4）私有（默认），如果要修改为所有人可见（开源），创建好仓库后通过仓库设置 修改为公开
+
+        仓库分为只有主支master 和 主支+分支 两种。
+        分支：可以将项目不断修改调整的过程放到分支上，修改定性之后再将分支内容向主支合并
+                临时分支 host_fix
+
+
+    本地项目推送到远程端：
+        常用指令:
+            =>git remote
+            =>git fetch +git merge
+            =>git pull
+            =>git push
+            =>git clone
+
+        本地仓与远程仓关联
+            1. 直接 clone 仓库中有的项目： git clone 远程端的url （目前选用的是https）
+                => git clone https://gitee.com/lllnana/myclass300.git
+
+                拉取下来的文件有一个隐藏的.git文件夹，这是我们的版本库，因此不需要再初始化
+
+            2. 将本地项目上传到远程端，
+                可以在上传到远程仓的时候最后检查一下是否还有需要提交的文件（=》git status），之后在进行下一步操作
+
+                1) 在远程端创建仓库
+                2）关联远程端与本地端
+                        语法：git remote add remoteName(自定义的，通常是origin) url      //关联远程仓库
+
+                        其他相关指令：
+                        git remote //查看本地仓库关联的远程仓库
+                        git remote -v //列出关联的远程仓库详细信息
+
+                    =》输入指令：git remote add origin  https://gitee.com/lllnana/myclass300.git
+
+                3) 同步远程仓库到本地
+                    a) git fetch + git merge(不使用)
+                        git fetch //拉取代码
+                        git merge //合并代码到本地
+
+                    b) git pull //拉取代码并和本地代码合并 （一般直接使用git pull）
+                        语法：git pull 远程主机名 远程分支名：本地分支名
+
+                        还可以使用rebase模式进行合并 -- 有更好的代码提交树
+                        语法：git pull --rebase 远程主机名 远程分支名：本地分支名
+
+                        拉取合并指令：
+                            git pull --rebase origin master //将远程端的master与当前本地的master合并
+                            git pull --rebase origin master:dev  //将远程的origin的master分支拉取下来和本地的dev分支合并
+
+
+                        （master）
+
+                     =>输入指令 :git pull --rebase origin master
+
+                4) 将本地项目推送到远程
+                    语法：git push 远程主机名 本地分支名：远程分支名
+                        git push origin master  //将本地master推送到远程端的master
+                        git push origin dev:dev //将本地dev分支推送到远程端的dev上
+                        git push -u origin master //一般第一次推送的时候加上 -u
+                            -u 是为了方便以后的推送是需要写git push 不用写后面的origin master
+                            -u 的意思是将本地的master和远程的master进行关联，管理看依次就好了，以后直接git push
+
+                    ==>输入指令: git push -u origin master ///将本地master推送到远程端的master
+
+
+
+
+
+
 
 
 
