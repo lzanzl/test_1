@@ -37,3 +37,5 @@ ssh-keygen -t ed25519 -C "xxxxx@xxxxx.com"
 ssh -T git@gitee.com
 
 https://api-ugo-web.itheima.net
+
+git switch -c test 创建并切换分支
