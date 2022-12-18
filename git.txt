@@ -39,3 +39,4 @@ ssh -T git@gitee.com
 https://api-ugo-web.itheima.net
 
 git switch -c test 创建并切换分支
+git rebase master 变基 合并和变基是可以互换的
